@@ -1,0 +1,46 @@
+0x000:                      | 	.pos 0
+0x000: 30f40004000000000000 | 	irmovq stack, %rsp
+0x00a: 805800000000000000   | 	call main
+0x013: 00                   | 	halt
+                            | 
+0x018:                      | 	.align 8
+0x018:                      | node1:
+0x018: 0e30200100000000     | 	.quad 0x0120300e
+0x020: 2800000000000000     | 	.quad node2
+0x028:                      | node2:
+0x028: 0c0aee0200000000     | 	.quad 0x02ee0a0c
+0x030: 3800000000000000     | 	.quad node3
+0x038:                      | node3:
+0x038: 0000dc0300000000     | 	.quad 0x03dc0000
+0x040: 4800000000000000     | 	.quad node4
+0x048:                      | node4:
+0x048: 0000e00400000000     | 	.quad 0x04e00000
+0x050: 0000000000000000     | 	.quad 0x00
+                            | 
+0x058:                      | main:
+0x058: 30f71800000000000000 | 	irmovq node1, %rdi
+0x062: 806c00000000000000   | 	call rsum_list
+0x06b: 90                   | 	ret
+                            | 
+0x06c:                      | rsum_list:
+0x06c: 6277                 | 	andq %rdi, %rdi
+0x06e: 748200000000000000   | 	jne recur
+0x077: 30f00000000000000000 | 	irmovq 0x00, %rax
+0x081: 90                   | 	ret
+0x082:                      | recur:
+0x082: 30fa0800000000000000 | 	irmovq 0x08, %r10
+0x08c: a07f                 | 	pushq %rdi
+0x08e: 60a7                 | 	addq %r10, %rdi
+0x090: 50770000000000000000 | 	mrmovq (%rdi), %rdi
+0x09a: 806c00000000000000   | 	call rsum_list
+0x0a3: b07f                 | 	popq %rdi
+0x0a5: 50670000000000000000 | 	mrmovq (%rdi), %rsi
+0x0af: 6060                 | 	addq %rsi, %rax
+0x0b1: 90                   | 	ret	
+                            | 
+                            | 
+0x400:                      | 	.pos 0x400
+0x400:                      | stack:
+                            | 
+                            | 
+                            | 

@@ -1,0 +1,46 @@
+	.pos 0
+	irmovq stack, %rsp
+	call main
+	halt
+
+	.align 8
+node1:
+	.quad 0x01
+	.quad node2
+node2:
+	.quad 0x02
+	.quad node3
+node3:
+	.quad 0x03
+	.quad node4
+node4:
+	.quad 0x04
+	.quad 0x00
+
+main:
+	irmovq node1, %rdi
+	call sum_list
+	ret
+
+sum_list:
+	irmovq $0x00, %rax
+	irmovq $0x08, %r10
+test:
+	andq %rdi, %rdi
+	jne loop
+	ret
+loop:
+	mrmovq (%rdi), %rsi
+	addq %rsi, %rax
+	addq %r10, %rdi
+	mrmovq (%rdi), %rdi
+	jmp test
+	ret	
+
+
+	.pos 0x400
+stack:
+
+
+
+	
